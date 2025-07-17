@@ -128,6 +128,8 @@ Un jeu de données de base peut être généré via les seeders pour inclure des
 ## 🤝 Contributeurs
 
 - [**BADAROU Mouwafic**](https://github.com/mouwaficbdr)
+- [**BOUDZOUMOU Florent**](https://github.com/Florent242)
+- [**DOSSA Ferdinande**]()
 
 
 ## 🧑‍💻 Contribution
