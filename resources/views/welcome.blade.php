@@ -14,11 +14,11 @@
                 Rejoignez l'événement culinaire incontournable qui rassemble les meilleurs producteurs locaux, restaurants et créateurs de votre région
             </p>
             <div class="space-x-4">
-                <a href="{{ route('stands.index') }}" class="bg-white text-orange-600 px-8 py-3 rounded-full text-lg font-semibold hover:bg-gray-100 transition duration-300">
+                <a href="{{ route('stands.index') }}" class="bg-white text-orange-600 px-8 py-3 rounded-md text-lg font-semibold hover:bg-gray-100 transition duration-300">
                     Explorer les stands
                 </a>
                 @guest
-                    <a href="{{ route('register') }}" class="border-2 border-white text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-white hover:text-orange-600 transition duration-300">
+                    <a href="{{ route('register') }}" class="border-2 border-white text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-orange-600 transition duration-300">
                         Devenir exposant
                     </a>
                 @endguest
