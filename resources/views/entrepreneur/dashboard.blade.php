@@ -126,7 +126,7 @@
                     
                     <div class="alert alert-info mt-3 mb-0">
                         <i class="fas fa-info-circle me-2"></i>
-                        <strong>Prochainement :</strong> Gestion des produits, statistiques détaillées, et bien plus encore !
+                        <strong>Pas encore fait :</strong> Gestion des produits, statistiques détaillées !
                     </div>
                 </div>
             </div>
