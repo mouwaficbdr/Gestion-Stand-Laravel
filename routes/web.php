@@ -1,25 +1,38 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Entrepreneur\DashboardController as EntrepreneurDashboardController;
-use App\Http\Controllers\Entrepreneur\StandController;
-use App\Http\Controllers\Entrepreneur\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EntrepreneurController;
 
-// Public routes
+// Routes publiques
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/stands', [HomeController::class, 'stands'])->name('stands.index');
-Route::get('/stands/{stand}', [HomeController::class, 'showStand'])->name('stands.show');
-Route::get('/about', [HomeController::class, 'about'])->name('about');
-// Auth routes
-require __DIR__.'/auth.php';
 
-// routes pour l'authenitification
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Routes d'authentification
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+// Routes administrateur
+Route::middleware(['auth', App\Http\Middleware\AdminMiddleware::class])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/demandes', [AdminController::class, 'demandes'])->name('admin.demandes');
+    Route::post('/demandes/{id}/approuver', [AdminController::class, 'approuverDemande'])->name('admin.approuver');
+    Route::delete('/demandes/{id}/rejeter', [AdminController::class, 'rejeterDemande'])->name('admin.rejeter');
+    Route::get('/stands', [AdminController::class, 'stands'])->name('admin.stands');
+});
+
+// Routes entrepreneur approuvé
+Route::middleware(['auth', App\Http\Middleware\ApprovedEntrepreneurMiddleware::class])->prefix('entrepreneur')->group(function () {
+    Route::get('/dashboard', [EntrepreneurController::class, 'dashboard'])->name('entrepreneur.dashboard');
+});
+
+// Route entrepreneur en attente
+Route::middleware(['auth', App\Http\Middleware\PendingMiddleware::class])->group(function () {
+    Route::get('/entrepreneur/pending', [EntrepreneurController::class, 'pending'])->name('entrepreneur.pending');
 });
