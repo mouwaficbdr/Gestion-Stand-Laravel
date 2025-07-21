@@ -1,52 +1,117 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@extends('layouts.app')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+@section('title', 'Inscription Exposant - Eat&Drink')
+
+@section('content')
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0"><i class="fas fa-store me-2"></i>Demande de Stand - Exposant</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">
+                        Remplissez ce formulaire pour soumettre votre demande de participation à l'événement Eat&Drink. 
+                        Votre demande sera examinée par notre équipe.
+                    </p>
+
+                    <form method="POST" action="{{ route('register') }}">
+                        @csrf
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nom" class="form-label">Nom complet *</label>
+                                    <input type="text" class="form-control @error('nom') is-invalid @enderror" 
+                                           id="nom" name="nom" value="{{ old('nom') }}" required>
+                                    @error('nom')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nom_entreprise" class="form-label">Nom de l'entreprise *</label>
+                                    <input type="text" class="form-control @error('nom_entreprise') is-invalid @enderror" 
+                                           id="nom_entreprise" name="nom_entreprise" value="{{ old('nom_entreprise') }}" required>
+                                    @error('nom_entreprise')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Adresse email *</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                   id="email" name="email" value="{{ old('email') }}" required>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Mot de passe *</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                           id="password" name="password" required>
+                                    @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Confirmer le mot de passe *</label>
+                                    <input type="password" class="form-control" 
+                                           id="password_confirmation" name="password_confirmation" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <h5 class="mb-3"><i class="fas fa-store-alt me-2"></i>Informations du Stand</h5>
+
+                        <div class="mb-3">
+                            <label for="nom_stand" class="form-label">Nom du stand *</label>
+                            <input type="text" class="form-control @error('nom_stand') is-invalid @enderror" 
+                                   id="nom_stand" name="nom_stand" value="{{ old('nom_stand') }}" required>
+                            @error('nom_stand')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description de votre activité *</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror" 
+                                      id="description" name="description" rows="4" required>{{ old('description') }}</textarea>
+                            <div class="form-text">Décrivez votre spécialité, vos produits, votre concept...</div>
+                            @error('description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Soumettre ma demande
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr>
+                    <div class="text-center">
+                        <p class="mb-0">Vous avez déjà un compte ?</p>
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+</div>
+@endsection
