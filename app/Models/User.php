@@ -2,39 +2,31 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
-
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nom',
+        'nom_entreprise',
         'email',
         'password',
-        'phone',
-        'bio',
-        'company_name',
-        'status',
-        'rejection_reason',
-        'approved_at',
+        'role',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -50,28 +42,39 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'approved_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
 
-    public function stands()
+    /**
+     * Relation avec le stand
+     */
+    public function stand()
     {
-        return $this->hasMany(Stand::class);
+        return $this->hasOne(Stand::class, 'utilisateur_id');
     }
 
-    public function isApproved()
+    /**
+     * Vérifier si l'utilisateur est admin
+     */
+    public function isAdmin()
     {
-        return $this->status === 'approved';
+        return $this->role === 'admin';
     }
 
+    /**
+     * Vérifier si l'utilisateur est entrepreneur approuvé
+     */
+    public function isApprovedEntrepreneur()
+    {
+        return $this->role === 'entrepreneur_approuve';
+    }
+
+    /**
+     * Vérifier si l'utilisateur est en attente
+     */
     public function isPending()
     {
-        return $this->status === 'pending';
-    }
-
-    public function isRejected()
-    {
-        return $this->status === 'rejected';
+        return $this->role === 'entrepreneur_en_attente';
     }
 }

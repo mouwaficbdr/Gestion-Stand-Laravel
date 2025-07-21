@@ -9,39 +9,22 @@ class Stand extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
-        'name',
+        'nom_stand',
         'description',
-        'image',
-        'status',
-        'position',
-        'user_id',
-        'views',
-        'likes',
+        'utilisateur_id',
     ];
 
-    public function user()
+    /**
+     * Relation avec l'utilisateur
+     */
+    public function utilisateur()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
-
-    public function isActive()
-    {
-        return $this->status === 'active';
-    }
-
-    public function incrementViews()
-    {
-        $this->increment('views');
-    }
-
-    public function incrementLikes()
-    {
-        $this->increment('likes');
+        return $this->belongsTo(User::class, 'utilisateur_id');
     }
 }
