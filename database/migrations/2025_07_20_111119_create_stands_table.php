@@ -13,14 +13,9 @@ return new class extends Migration
     {
         Schema::create('stands', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nom_stand');
             $table->text('description');
-            $table->string('image')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->string('position')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('views')->default(0);
-            $table->integer('likes')->default(0);
+            $table->foreignId('utilisateur_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
