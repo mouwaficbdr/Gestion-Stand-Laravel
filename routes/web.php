@@ -6,10 +6,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EntrepreneurController;
+use App\Http\Controllers\StandController;
 
 // Routes publiques
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
+Route::get('/stands', [StandController::class, 'index'])->name('stands.index');
 // Routes d'authentification
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
