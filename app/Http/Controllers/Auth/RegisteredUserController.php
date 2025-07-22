@@ -12,10 +12,19 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+/**
+ * Contrôleur RegisteredUserController
+ *
+ * Gère l'inscription standard des utilisateurs :
+ * - Affichage du formulaire d'inscription
+ * - Traitement de l'inscription
+ */
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * Affiche la vue d'inscription.
+     *
+     * @return \Illuminate\View\View
      */
     public function create(): View
     {
@@ -23,8 +32,10 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming registration request.
+     * Traite la demande d'inscription.
      *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
@@ -35,15 +46,16 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Crée l'utilisateur
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        event(new Registered($user)); // Déclenche l'événement d'inscription
 
-        Auth::login($user);
+        Auth::login($user); // Connecte l'utilisateur automatiquement
 
         return redirect(route('dashboard', absolute: false));
     }

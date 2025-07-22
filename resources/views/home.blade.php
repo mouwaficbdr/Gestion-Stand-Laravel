@@ -3,7 +3,7 @@
 @section('title', 'Accueil - Eat&Drink')
 
 @section('content')
-<!-- Hero Section -->
+{{-- Section principale de bienvenue (Hero Section) --}}
 <section class="hero-section">
     <div class="container">
         <div class="row align-items-center">
@@ -14,9 +14,11 @@
                     Rejoignez-nous pour une expérience gastronomique unique avec les meilleurs chefs et producteurs locaux.
                 </p>
                 <div class="d-flex gap-3">
+                    {{-- Lien vers l'inscription exposant --}}
                     <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
                         <i class="fas fa-store me-2"></i>Devenir Exposant
                     </a>
+                    {{-- Lien vers la section d'informations --}}
                     <a href="#info" class="btn btn-outline-light btn-lg">
                         <i class="fas fa-info-circle me-2"></i>En savoir plus
                     </a>
@@ -29,7 +31,7 @@
     </div>
 </section>
 
-<!-- Section Informations -->
+{{-- Section d'informations sur l'événement --}}
 <section id="info" class="py-5">
     <div class="container">
         <div class="row">
@@ -43,6 +45,7 @@
         </div>
         
         <div class="row g-4">
+            {{-- Carte Chefs Renommés --}}
             <div class="col-md-4">
                 <div class="card h-100 text-center">
                     <div class="card-body">
@@ -55,6 +58,7 @@
                 </div>
             </div>
             
+            {{-- Carte Produits Locaux --}}
             <div class="col-md-4">
                 <div class="card h-100 text-center">
                     <div class="card-body">
@@ -67,6 +71,7 @@
                 </div>
             </div>
             
+            {{-- Carte Dégustation --}}
             <div class="col-md-4">
                 <div class="card h-100 text-center">
                     <div class="card-body">
@@ -82,7 +87,7 @@
     </div>
 </section>
 
-<!-- Section Call to Action -->
+{{-- Section d'appel à l'action pour les professionnels --}}
 <section class="py-5 bg-light">
     <div class="container">
         <div class="row">
@@ -91,6 +96,7 @@
                 <p class="lead mb-4">
                     Rejoignez notre événement en tant qu'exposant et présentez vos créations à un public passionné.
                 </p>
+                {{-- Lien pour demander un stand --}}
                 <a href="{{ route('register') }}" class="btn btn-primary btn-lg">
                     <i class="fas fa-plus-circle me-2"></i>Demander un Stand
                 </a>

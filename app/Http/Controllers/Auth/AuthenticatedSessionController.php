@@ -9,10 +9,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+/**
+ * Contrôleur AuthenticatedSessionController
+ *
+ * Gère la session d'authentification :
+ * - Affichage du formulaire de connexion
+ * - Traitement de la connexion
+ * - Déconnexion
+ */
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
+     * Affiche la vue de connexion.
+     *
+     * @return \Illuminate\View\View
      */
     public function create(): View
     {
@@ -20,7 +30,10 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Handle an incoming authentication request.
+     * Traite la demande d'authentification.
+     *
+     * @param \App\Http\Requests\Auth\LoginRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(LoginRequest $request): RedirectResponse
     {
@@ -32,7 +45,10 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Destroy an authenticated session.
+     * Détruit la session authentifiée (déconnexion).
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Request $request): RedirectResponse
     {
