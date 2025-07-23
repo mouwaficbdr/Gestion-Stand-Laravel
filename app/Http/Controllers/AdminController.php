@@ -65,12 +65,46 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Cette demande ne peut pas être rejetée.');
         }
 
+        $request->validate([
+            'motif_rejet' => 'required|string|max:255',
+        ]);
+
+        // Enregistrer le motif de rejet
+        $user->motif_rejet = $request->motif_rejet;
+        $user->save();
+
         // Supprimer l'utilisateur et son stand
         $user->delete();
 
         //Envoyer email de notification avec motif
         
         return redirect()->back()->with('success', 'Demande rejetée avec succès.');
+    }
+
+    /**
+     * Retirer l'approbation d'un stand
+     */
+    public function retirerApprobation(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        
+        if ($user->role !== 'entrepreneur_approuve') {
+            return redirect()->back()->with('error', 'Ce stand n\'est pas approuvé.');
+        }
+
+        $request->validate([
+            'motif_retrait' => 'required|string|max:255',
+        ]);
+
+        // Changer le statut vers en attente et enregistrer le motif
+        $user->update([
+            'role' => 'entrepreneur_en_attente',
+            'motif_retrait' => $request->motif_retrait
+        ]);
+
+        // Envoyer email de notification avec motif
+        
+        return redirect()->back()->with('success', 'Approbation retirée avec succès. Le stand est maintenant en attente.');
     }
 
     /**

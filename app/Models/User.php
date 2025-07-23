@@ -21,6 +21,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'motif_rejet',
+        'motif_retrait',
     ];
 
     /**
@@ -52,6 +54,14 @@ class User extends Authenticatable
     public function stand()
     {
         return $this->hasOne(Stand::class, 'utilisateur_id');
+    }
+
+    /**
+     * Relation avec les produits
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 
     /**

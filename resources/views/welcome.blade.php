@@ -11,7 +11,7 @@
                 <br>de Votre Région
             </h1>
             <p class="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
-                Rejoignez l'événement culinaire incontournable qui rassemble les meilleurs producteurs locaux, restaurants et créateurs de votre région
+                Rejoignez la plateforme culinaire incontournable qui rassemble les meilleurs producteurs locaux, restaurants et créateurs de votre région
             </p>
             <div class="space-x-4">
                 <a href="{{ route('stands.index') }}" class="bg-white text-orange-600 px-8 py-3 rounded-md text-lg font-semibold hover:bg-gray-100 transition duration-300">
@@ -45,7 +45,7 @@
             </div>
             <div class="bg-blue-50 p-8 rounded-lg">
                 <div class="text-4xl font-bold text-blue-600 mb-2">{{ $stands->sum(function($stand) { return $stand->products->count(); }) }}+</div>
-                <div class="text-gray-600">Jours d'Evenements</div>
+                <div class="text-gray-600">Jours d'ouverture</div>
             </div>
             
         </div>
@@ -60,7 +60,7 @@
                 Nos Exposants Vedettes
             </h2>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                Découvrez quelques-uns des exposants exceptionnels qui participeront à l'événement
+                Découvrez quelques-uns des exposants exceptionnels qui participent à notre plateforme
             </p>
         </div>
 
