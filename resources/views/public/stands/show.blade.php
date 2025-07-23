@@ -105,16 +105,7 @@
                     </div>
                 </div>
 
-                <!-- Actions -->
-                <div class="flex flex-col space-y-3">
 
-                    <button class="btn btn-secondary bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30 px-6 py-3">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path>
-                        </svg>
-                        Partager
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -154,11 +145,11 @@
                          x-transition:leave-start="opacity-100 scale-100"
                          x-transition:leave-end="opacity-0 scale-95"
                          @click.away="open = false"
-                         class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-strong border border-secondary-100 py-2 z-10">
+                         class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-strong border border-secondary-100 py-2 z-10"
+                         style="display: none;">
                         <a href="#" class="block px-4 py-2 text-sm text-secondary-700 hover:bg-secondary-50">Prix croissant</a>
                         <a href="#" class="block px-4 py-2 text-sm text-secondary-700 hover:bg-secondary-50">Prix décroissant</a>
                         <a href="#" class="block px-4 py-2 text-sm text-secondary-700 hover:bg-secondary-50">Nouveautés</a>
-
                     </div>
                 </div>
             </div>
@@ -313,21 +304,45 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Placeholder for related stands - would be populated by controller -->
-                @for($i = 0; $i < 3; $i++)
-                <div class="card card-hover">
-                    <div class="h-32 bg-gradient-to-br from-primary-400 to-accent-500 flex items-center justify-center">
-                        <span class="text-2xl font-bold text-white">S{{ $i + 1 }}</span>
+            @if($relatedStands->count() > 0)
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    @foreach($relatedStands as $relatedStand)
+                    <div class="card card-hover group">
+                        <div class="relative h-32 bg-gradient-to-br from-primary-400 to-accent-500 overflow-hidden">
+                            @if($relatedStand->image)
+                                <img src="{{ asset('storage/' . $relatedStand->image) }}" 
+                                     alt="{{ $relatedStand->nom_stand }}" 
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <span class="text-3xl font-bold text-white">{{ substr($relatedStand->nom_stand, 0, 1) }}</span>
+                                </div>
+                            @endif
+                            
+                            <!-- Overlay -->
+                            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        <div class="card-body p-4">
+                            <h3 class="font-semibold text-secondary-900 mb-2">{{ $relatedStand->nom_stand }}</h3>
+                            <p class="text-sm text-secondary-600 mb-1">{{ $relatedStand->utilisateur->nom_entreprise }}</p>
+                            <p class="text-sm text-secondary-600 mb-3">{{ Str::limit($relatedStand->description, 80) }}</p>
+                            <a href="{{ route('stands.public.show', $relatedStand->id) }}" 
+                               class="btn btn-secondary btn-sm w-full group-hover:shadow-soft transition-all duration-300">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 616 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                Découvrir
+                            </a>
+                        </div>
                     </div>
-                    <div class="card-body p-4">
-                        <h3 class="font-semibold text-secondary-900 mb-2">Stand Exemple {{ $i + 1 }}</h3>
-                        <p class="text-sm text-secondary-600 mb-3">Description du stand exemple...</p>
-                        <a href="#" class="btn btn-secondary btn-sm w-full">Découvrir</a>
-                    </div>
+                    @endforeach
                 </div>
-                @endfor
-            </div>
+            @else
+                <div class="text-center py-8">
+                    <p class="text-secondary-600">Aucun autre exposant disponible pour le moment.</p>
+                </div>
+            @endif
 
             <div class="text-center mt-8">
                 <a href="{{ route('stands.public.index') }}" class="btn btn-primary">

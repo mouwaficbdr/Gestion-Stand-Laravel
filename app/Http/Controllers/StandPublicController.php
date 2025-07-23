@@ -22,6 +22,17 @@ class StandPublicController extends Controller
             abort(404);
         }
         $products = $stand->utilisateur->products;
-        return view('public.stands.show', compact('stand', 'products'));
+        
+        // Récupérer 3 autres stands aléatoires (excluant le stand actuel)
+        $relatedStands = Stand::whereHas('utilisateur', function($q) {
+            $q->where('role', 'entrepreneur_approuve');
+        })
+        ->where('id', '!=', $id)
+        ->with('utilisateur')
+        ->inRandomOrder()
+        ->limit(3)
+        ->get();
+        
+        return view('public.stands.show', compact('stand', 'products', 'relatedStands'));
     }
 } 
